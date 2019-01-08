@@ -146,7 +146,10 @@ const ACTORS = [{
   }]
 }];
 
-function booker(duration, numberOfPeople) {
+function booker(duration, numberOfPeople, deductibleOption) {
+    if (deductibleOption == null) {
+        deductibleOption = false;
+    }
     var toReturn = "";
     var bar;
     for (bar in BARS) {
@@ -169,7 +172,17 @@ function booker(duration, numberOfPeople) {
         var taxes = numberOfPeople;
         commission -= taxes;
         var barPay = 0.7 * totalPrice;
-        toReturn += "\n" + BARS[bar].id + ": " + totalPrice + "EUR (bar: " + barPay + ", privateaser: " + commission + ", insurance: " + insurance + ", taxes: " + taxes;
+        if (deductibleOption) {
+            totalPrice += numberOfPeople;
+            commission += numberOfPeople;
+        }
+        // test
+        if (totalPrice == (commission + insurance + taxes + barPay)) {
+            toReturn += "\n" + BARS[bar].id + ": " + totalPrice + "EUR (bar: " + barPay + ", privateaser: " + commission + ", insurance: " + insurance + ", taxes: " + taxes + ", deductible option: " + deductibleOption + ")";
+        }
+        else {
+            toReturn += "\nerror: sum not right";
+        }
     }
     return toReturn;
 }
@@ -192,3 +205,6 @@ console.log(booker(5, 25));
 
 console.log("booking offers for 5h and 65 persons");
 console.log(booker(5, 65));
+
+console.log("booking offers for 5h and 65 persons with deductible option");
+console.log(booker(5, 65, true));
