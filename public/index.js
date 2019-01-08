@@ -1,8 +1,8 @@
 'use strict';
 
-//list of bats
+//list of bars
 //useful for ALL 5 steps
-//could be an array of objects that you fetched from api or database
+//could be an array of objects that you fetched from an api or a database
 const bars = [{
   'id': 'f944a3ff-591b-4d5b-9b67-c7e08cba9791',
   'name': 'freemousse-bar',
@@ -22,7 +22,7 @@ const bars = [{
 
 //list of current booking events
 //useful for ALL steps
-//the time is hour
+//the time unit is hours
 //The `price` is updated from step 1 and 2
 //The `commission` is updated from step 3
 //The `options` is useful from step 4
