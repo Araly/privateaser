@@ -3,7 +3,7 @@
 //list of bars
 //useful for ALL 5 steps
 //could be an array of objects that you fetched from an api or a database
-const bars = [{
+const BARS = [{
   'id': 'f944a3ff-591b-4d5b-9b67-c7e08cba9791',
   'name': 'freemousse-bar',
   'pricePerHour': 50,
@@ -26,7 +26,7 @@ const bars = [{
 //The `price` is updated from step 1 and 2
 //The `commission` is updated from step 3
 //The `options` is useful from step 4
-const events = [{
+const EVENTS = [{
   'id': 'bba9500c-fd9e-453f-abf1-4cd8f52af377',
   'booker': 'esilv-bde',
   'barId': 'f944a3ff-591b-4d5b-9b67-c7e08cba9791',
@@ -75,7 +75,7 @@ const events = [{
 
 //list of actors for payment
 //useful from step 5
-const actors = [{
+const ACTORS = [{
   'eventId': 'bba9500c-fd9e-453f-abf1-4cd8f52af377',
   'payment': [{
     'who': 'booker',
@@ -146,6 +146,21 @@ const actors = [{
   }]
 }];
 
-console.log(bars);
-console.log(events);
-console.log(actors);
+function booker(duration, numberOfPeople) {
+    var toReturn = "";
+    var bar;
+    for (bar in BARS) {
+        toReturn += "\n" + BARS[bar].id + ": " + (numberOfPeople * BARS[bar].pricePerPerson + duration * BARS[bar].pricePerHour) + "EUR (" + duration + "*" + BARS[bar].pricePerHour + " + " + numberOfPeople + "*" + BARS[bar].pricePerPerson + ") ";
+    }
+    return toReturn;
+}
+
+console.log("bars:");
+console.log(BARS);
+console.log("events:");
+console.log(EVENTS);
+console.log("actors:");
+console.log(ACTORS);
+
+console.log("1. booking offers for 5h and 5 persons");
+console.log(booker(5, 5));
