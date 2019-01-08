@@ -150,7 +150,20 @@ function booker(duration, numberOfPeople) {
     var toReturn = "";
     var bar;
     for (bar in BARS) {
-        toReturn += "\n" + BARS[bar].id + ": " + (numberOfPeople * BARS[bar].pricePerPerson + duration * BARS[bar].pricePerHour) + "EUR (" + duration + "*" + BARS[bar].pricePerHour + " + " + numberOfPeople + "*" + BARS[bar].pricePerPerson + ") ";
+        var totalPrice = duration * BARS[bar].pricePerHour;
+        if (numberOfPeople >= 60) {
+            totalPrice += numberOfPeople * BARS[bar].pricePerPerson * 0.5;
+        }
+        else if (numberOfPeople >= 20) {
+            totalPrice += numberOfPeople * BARS[bar].pricePerPerson * 0.7;
+        }
+        else if (numberOfPeople >= 10) {
+            totalPrice += numberOfPeople * BARS[bar].pricePerPerson * 0.9;
+        }
+        else {
+            totalPrice += numberOfPeople * BARS[bar].pricePerPerson;
+        }
+        toReturn += "\n" + BARS[bar].id + ": " + totalPrice + "EUR";
     }
     return toReturn;
 }
@@ -162,5 +175,14 @@ console.log(EVENTS);
 console.log("actors:");
 console.log(ACTORS);
 
-console.log("1. booking offers for 5h and 5 persons");
+console.log("booking offers for 5h and 5 persons");
 console.log(booker(5, 5));
+
+console.log("booking offers for 5h and 15 persons");
+console.log(booker(5, 15));
+
+console.log("booking offers for 5h and 25 persons");
+console.log(booker(5, 25));
+
+console.log("booking offers for 5h and 65 persons");
+console.log(booker(5, 65));
