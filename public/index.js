@@ -163,7 +163,13 @@ function booker(duration, numberOfPeople) {
         else {
             totalPrice += numberOfPeople * BARS[bar].pricePerPerson;
         }
-        toReturn += "\n" + BARS[bar].id + ": " + totalPrice + "EUR";
+        var commission = 0.3 * totalPrice;
+        var insurance = 0.5 * commission;
+        commission -= insurance;
+        var taxes = numberOfPeople;
+        commission -= taxes;
+        var barPay = 0.7 * totalPrice;
+        toReturn += "\n" + BARS[bar].id + ": " + totalPrice + "EUR (bar: " + barPay + ", privateaser: " + commission + ", insurance: " + insurance + ", taxes: " + taxes;
     }
     return toReturn;
 }
