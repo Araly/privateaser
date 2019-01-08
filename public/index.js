@@ -146,45 +146,76 @@ const ACTORS = [{
   }]
 }];
 
-function booker(duration, numberOfPeople, deductibleOption) {
+class BookingDetail {
+    constructor () {
+        this.deductibleOption = false;
+    }
+
+    toString () {
+        toReturn = (totalPrice + "EUR (bar: " + bar + ", privateaser: " + capital + ", insurance: " + insurance + ", taxes: " + taxes + ", deductible option: " + deductibleOption + ")");
+        return toReturn;
+    }
+
+    test () {
+        var difference = this.totalPrice - (this.capital + this.insurance + this.taxes + this.bar);
+        var toReturn;
+        if (difference == 0) {
+            toReturn = true;
+        }
+        else {
+            toReturn = difference
+        }
+        return toReturn;
+    }
+}
+
+function booker (duration, numberOfPeople, deductibleOption) {
     if (deductibleOption == null) {
         deductibleOption = false;
     }
     var toReturn = "";
     var bar;
     for (bar in BARS) {
-        var totalPrice = duration * BARS[bar].pricePerHour;
+        var detail = new BookingDetail();
+        detail.totalPrice = duration * BARS[bar].pricePerHour;
         if (numberOfPeople >= 60) {
-            totalPrice += numberOfPeople * BARS[bar].pricePerPerson * 0.5;
+            detail.totalPrice += numberOfPeople * BARS[bar].pricePerPerson * 0.5;
         }
         else if (numberOfPeople >= 20) {
-            totalPrice += numberOfPeople * BARS[bar].pricePerPerson * 0.7;
+            detail.totalPrice += numberOfPeople * BARS[bar].pricePerPerson * 0.7;
         }
         else if (numberOfPeople >= 10) {
-            totalPrice += numberOfPeople * BARS[bar].pricePerPerson * 0.9;
+            detail.totalPrice += numberOfPeople * BARS[bar].pricePerPerson * 0.9;
         }
         else {
-            totalPrice += numberOfPeople * BARS[bar].pricePerPerson;
+            detail.totalPrice += numberOfPeople * BARS[bar].pricePerPerson;
         }
-        var commission = 0.3 * totalPrice;
-        var insurance = 0.5 * commission;
-        commission -= insurance;
-        var taxes = numberOfPeople;
-        commission -= taxes;
-        var barPay = 0.7 * totalPrice;
+        detail.capital = 0.3 * detail.totalPrice;
+        detail.insurance = 0.5 * detail.capital;
+        detail.capital -= detail.insurance;
+        detail.taxes = numberOfPeople;
+        detail.capital -= detail.taxes;
+        detail.bar = 0.7 * detail.totalPrice;
         if (deductibleOption) {
-            totalPrice += numberOfPeople;
-            commission += numberOfPeople;
+            detail.totalPrice += numberOfPeople;
+            detail.capital += numberOfPeople;
+            detail.deductibleOption = true;
         }
         // test
-        if (totalPrice == (commission + insurance + taxes + barPay)) {
-            toReturn += "\n" + BARS[bar].id + ": " + totalPrice + "EUR (bar: " + barPay + ", privateaser: " + commission + ", insurance: " + insurance + ", taxes: " + taxes + ", deductible option: " + deductibleOption + ")";
+        if (detail.test() == true) {
+            toReturn = detail;
         }
         else {
-            toReturn += "\nerror: sum not right";
+            toReturn = detail.test();
         }
     }
     return toReturn;
+}
+
+function process () {
+    for (actor in ACTORS) {
+
+    }
 }
 
 console.log("bars:");
